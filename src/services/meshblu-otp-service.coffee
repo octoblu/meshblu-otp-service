@@ -1,7 +1,8 @@
 class MeshbluOtpService
-  doHello: ({hasError}, callback) =>
-    return callback @_createError(755, 'Not enough dancing!') if hasError?
-    callback()
+  constructor: ({secret}) ->
+
+  generate: ({uuid, token}, callback) =>
+    callback null, token: 'sweet'
 
   _createError: (code, message) =>
     error = new Error message

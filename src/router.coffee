@@ -5,7 +5,6 @@ class Router
   route: (app) =>
     meshbluOtpController = new MeshbluOtpController {@meshbluOtpService}
 
-    app.get '/hello', meshbluOtpController.hello
-    # e.g. app.put '/resource/:id', someController.update
+    app.post '/generate', meshbluOtpController.generate
 
 module.exports = Router

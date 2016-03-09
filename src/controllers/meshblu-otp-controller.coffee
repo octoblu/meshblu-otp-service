@@ -1,10 +1,9 @@
 class MeshbluOtpController
   constructor: ({@meshbluOtpService}) ->
 
-  hello: (request, response) =>
-    {hasError} = request.query
-    @meshbluOtpService.doHello {hasError}, (error) =>
-      return response.status(error.code || 500).send(error: error.message) if error?
-      response.sendStatus(200)
+  generate: (request, response) =>
+    @meshbluOtpService.generate request.meshbluAuth, (error, result) =>
+      return response.sendError(error) if error?
+      response.status(201).send result
 
 module.exports = MeshbluOtpController

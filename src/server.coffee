@@ -5,13 +5,14 @@ bodyParser         = require 'body-parser'
 errorHandler       = require 'errorhandler'
 meshbluHealthcheck = require 'express-meshblu-healthcheck'
 meshbluAuth        = require 'express-meshblu-auth'
+SendError          = require 'express-send-error'
 MeshbluConfig      = require 'meshblu-config'
 debug              = require('debug')('meshblu-otp-service:server')
 Router             = require './router'
-MeshbluOtpService = require './services/meshblu-otp-service'
+MeshbluOtpService  = require './services/meshblu-otp-service'
 
 class Server
-  constructor: ({@disableLogging, @port}, {@meshbluConfig})->
+  constructor: ({@disableLogging, @port, @secret}, {@meshbluConfig})->
     @meshbluConfig ?= new MeshbluConfig().toJSON()
 
   address: =>
@@ -22,6 +23,7 @@ class Server
     app.use morgan 'dev', immediate: false unless @disableLogging
     app.use cors()
     app.use errorHandler()
+    app.use SendError()
     app.use meshbluHealthcheck()
     app.use meshbluAuth(@meshbluConfig)
     app.use bodyParser.urlencoded limit: '1mb', extended : true
@@ -29,7 +31,7 @@ class Server
 
     app.options '*', cors()
 
-    meshbluOtpService = new MeshbluOtpService
+    meshbluOtpService = new MeshbluOtpService {@secret}
     router = new Router {@meshbluConfig, meshbluOtpService}
 
     router.route app
