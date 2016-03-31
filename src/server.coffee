@@ -12,7 +12,7 @@ Router             = require './router'
 MeshbluOtpService  = require './services/meshblu-otp-service'
 
 class Server
-  constructor: ({@disableLogging, @port, @secret}, {@meshbluConfig})->
+  constructor: ({@disableLogging, @port, @privateKey}, {@meshbluConfig})->
     @meshbluConfig ?= new MeshbluConfig().toJSON()
 
   address: =>
@@ -31,7 +31,7 @@ class Server
 
     app.options '*', cors()
 
-    meshbluOtpService = new MeshbluOtpService {@secret}
+    meshbluOtpService = new MeshbluOtpService {@privateKey}
     router = new Router {@meshbluConfig, meshbluOtpService}
 
     router.route app

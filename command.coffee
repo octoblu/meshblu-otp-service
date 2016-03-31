@@ -7,16 +7,17 @@ class Command
     @serverOptions =
       port:           process.env.PORT || 80
       disableLogging: process.env.DISABLE_LOGGING == "true"
-      secret:         process.env.MESHBLU_CTP_SECRET
+      privateKey:     process.env.MESHBLU_OTP_PRIVATE_KEY_BASE64
 
   panic: (error) =>
     console.error error.stack
     process.exit 1
 
   run: =>
-    @panic new Error('Missing required environment variable: MESHBLU_CTP_SECRET') if _.isEmpty @serverOptions.secret
+    @panic new Error('Missing required environment variable: MESHBLU_OTP_PRIVATE_KEY_BASE64') if _.isEmpty @serverOptions.privateKey
 
-    server = new Server @serverOptions, {meshbluConfig:  new MeshbluConfig().toJSON()}
+    meshbluConfig = new MeshbluConfig().toJSON()
+    server = new Server @serverOptions, {meshbluConfig}
     server.run (error) =>
       return @panic error if error?
 

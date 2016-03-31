@@ -40,6 +40,7 @@
     "express-send-error": "^1.0.4",
     "lodash": "^3.10.1",
     "meshblu-config": "^3.1.1",
+    "meshblu-encryption": "^1.0.2",
     "morgan": "^1.6.1"
   },
   "peerDependencies": {},

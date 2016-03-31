@@ -1,6 +1,9 @@
-class MeshbluOtpService
-  constructor: ({secret}) ->
+Encryption = requrie 'meshblu-encryption'
 
+class MeshbluOtpService
+  constructor: ({privateKey}) ->
+    @encryption = new Encryption {privateKey}
+    
   generate: ({uuid, token}, callback) =>
     callback null, token: 'sweet'
 
