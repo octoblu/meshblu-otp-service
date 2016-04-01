@@ -10,7 +10,7 @@ class Command
       disableLogging: process.env.DISABLE_LOGGING == "true"
       privateKey:     process.env.MESHBLU_OTP_PRIVATE_KEY_BASE64
 
-    @mongoDBUri = process.env.MONGODB_URI ? 'mongodb://localhost:27017/meshblu-otp-service'
+    @mongoDBUri = process.env.MONGODB_URI
 
   panic: (error) =>
     console.error error.stack
@@ -18,6 +18,7 @@ class Command
 
   run: =>
     @panic new Error('Missing required environment variable: MESHBLU_OTP_PRIVATE_KEY_BASE64') if _.isEmpty @serverOptions.privateKey
+    @panic new Error('Missing required environment variable: MONGODB_URI') if _.isEmpty @mongoDBUri
 
     keys = mongojs(@mongoDBUri).collection('keys')
 
