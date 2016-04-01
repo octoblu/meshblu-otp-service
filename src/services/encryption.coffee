@@ -9,8 +9,7 @@ class Encryption
   createNodeRSA: (keyString) =>
     return new NodeRSA keyString  if _.startsWith keyString, '-----'
 
-    keyBinary = new Buffer keyString, 'base64'
-    return new NodeRSA keyBinary, 'pkcs1-der'
+    return new NodeRSA new Buffer(keyString, 'base64')
 
   getPublicKey: =>
     return @key.exportKey 'public'
