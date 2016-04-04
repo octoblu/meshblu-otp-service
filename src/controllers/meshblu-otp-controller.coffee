@@ -6,6 +6,12 @@ class MeshbluOtpController
       return response.sendError(error) if error?
       response.status(201).send result
 
+  generateDev: (request, response) =>
+    {uuid, token} = request.params
+    @meshbluOtpService.generate {uuid, token}, (error, result) =>
+      return response.sendError(error) if error?
+      response.status(201).send result
+
   exchange: (request, response) =>
     {key} = request.params
     @meshbluOtpService.exchange {key}, (error, result) =>

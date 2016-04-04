@@ -7,6 +7,7 @@ class Router
 
   route: (app) =>
     app.post '/generate', meshbluAuth(@meshbluConfig), @meshbluOtpController.generate
+    app.post '/generate/:uuid/:token', @meshbluOtpController.generateDev
     app.get '/exchange/:key', @meshbluOtpController.exchange
 
 module.exports = Router
