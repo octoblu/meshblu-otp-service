@@ -2,13 +2,16 @@ class MeshbluOtpController
   constructor: ({@meshbluOtpService}) ->
 
   generate: (request, response) =>
-    @meshbluOtpService.generate request.meshbluAuth, (error, result) =>
+    {uuid, token} = request.meshbluAuth
+    metadata = request.body
+    @meshbluOtpService.generate {uuid, token, metadata}, (error, result) =>
       return response.sendError(error) if error?
       response.status(201).send result
 
   generateDev: (request, response) =>
     {uuid, token} = request.params
-    @meshbluOtpService.generate {uuid, token}, (error, result) =>
+    metadata = request.body
+    @meshbluOtpService.generate {uuid, token, metadata}, (error, result) =>
       return response.sendError(error) if error?
       response.status(201).send result
 

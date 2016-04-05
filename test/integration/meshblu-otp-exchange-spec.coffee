@@ -33,7 +33,7 @@ describe 'Exchange', ->
   describe 'On GET /exchange/:key', ->
     beforeEach (done) ->
       otpService = new MeshbluOtpService {@keys, privateKey}
-      otpService.generate {uuid: 'oh-sweet-uuid', token: 'oh-sweet-token'}, (error, result) =>
+      otpService.generate {uuid: 'oh-sweet-uuid', token: 'oh-sweet-token', metadata: {something: true}}, (error, result) =>
         return done error if error?
         {@key} = result
         done()
@@ -54,6 +54,8 @@ describe 'Exchange', ->
       expect(@body).to.deep.equal {
         uuid: 'oh-sweet-uuid'
         token: 'oh-sweet-token'
+        metadata:
+          something: true
       }
 
     it 'should not find the key', (done) ->

@@ -52,7 +52,8 @@ describe 'Generate', ->
         auth:
           username: 'some-uuid'
           password: 'some-token'
-        json: true
+        json:
+          something: true
 
       request.post options, (error, @response, @body) =>
         done error
@@ -77,4 +78,5 @@ describe 'Generate', ->
           uuid: 'some-uuid'
           token: 'some-token'
         }
+        expect(result.metadata).to.deep.equal something: true
         done()
