@@ -42,7 +42,7 @@ describe 'Generate', ->
       userAuth = new Buffer('some-uuid:some-token').toString 'base64'
 
       @authDevice = @meshblu
-        .get '/v2/whoami'
+        .post '/authenticate'
         .set 'Authorization', "Basic #{userAuth}"
         .reply 200, uuid: 'some-uuid', token: 'some-token'
 

@@ -12,7 +12,6 @@ MeshbluOtpService  = require './services/meshblu-otp-service'
 
 class Server
   constructor: ({@disableLogging, @port, @privateKey}, {@meshbluConfig, @keys})->
-    @meshbluConfig ?= new MeshbluConfig().toJSON()
 
   address: =>
     @server.address()

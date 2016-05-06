@@ -4,6 +4,9 @@ node_js:
 addons:
   code_climate:
     repo_token: "16a3b79a46e7ef65d62681ed92a5391ab325718979de98e1468448a6bf3edf62"
+branches:
+  only:
+  - "/^v[0-9]/"
 services:
 - mongodb
 before_script:
