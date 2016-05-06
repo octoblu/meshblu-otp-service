@@ -21,4 +21,16 @@ class MeshbluOtpController
       return response.sendError(error) if error?
       response.status(200).send result
 
+  retrieve: (request, response) =>
+    {key} = request.params
+    @meshbluOtpService.retrieve {key}, (error, result) =>
+      return response.sendError(error) if error?
+      response.status(200).send result
+
+  expire: (request, response) =>
+    {key} = request.params
+    @meshbluOtpService.expire {key}, (error, result) =>
+      return response.sendError(error) if error?
+      response.status(200).send result
+
 module.exports = MeshbluOtpController
