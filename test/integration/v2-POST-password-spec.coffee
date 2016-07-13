@@ -42,7 +42,7 @@ describe 'Generate', ->
   afterEach (done) ->
     @server.stop done
 
-  describe 'On POST /generate', ->
+  describe 'On POST /v2/passwords', ->
     beforeEach (done) ->
       userAuth = new Buffer('some-uuid:some-token').toString 'base64'
 
@@ -52,7 +52,7 @@ describe 'Generate', ->
         .reply 200, uuid: 'some-uuid', token: 'some-token'
 
       options =
-        uri: '/generate'
+        uri: '/v2/passwords'
         baseUrl: "http://localhost:#{@serverPort}"
         auth:
           username: 'some-uuid'

@@ -8,7 +8,7 @@ Encryption        = require '../../src/services/encryption'
 MeshbluOtpService = require '../../src/services/meshblu-otp-service'
 {privateKey}      = require './secrets'
 
-describe 'Expire', ->
+describe 'Exchange', ->
   beforeEach (done) ->
     @keys = mongojs('mongodb://localhost:27017/meshblu-otp-service-test').collection('keys')
     @keys.remove done
@@ -31,7 +31,7 @@ describe 'Expire', ->
   afterEach (done) ->
     @server.stop done
 
-  describe 'On GET /expire/:key', ->
+  describe 'On DELETE /v2/passwords/:password', ->
     beforeEach (done) ->
       otpService = new MeshbluOtpService {@keys, privateKey}
       otpService.generate {uuid: 'my-uuid', token: 'my-token', metadata: {something: true}}, (error, result) =>
@@ -41,20 +41,25 @@ describe 'Expire', ->
 
     beforeEach (done) ->
       options =
-        uri: "/expire/#{@key}"
+        uri: "/v2/passwords/#{@key}"
         baseUrl: "http://localhost:#{@serverPort}"
         json: true
 
-      request.get options, (error, @response, @body) =>
+      request.delete options, (error, @response, @body) =>
         done error
 
     it 'should return a 200', ->
       expect(@response.statusCode).to.equal 200
 
     it 'should create return the uuid and token', ->
-      expect(@body).to.be.empty
+      expect(@body).to.deep.equal {
+        uuid: 'my-uuid'
+        token: 'my-token'
+        metadata:
+          something: true
+      }
 
-    it 'should find the key', (done) ->
+    it 'should not find the key', (done) ->
       @keys.find {@key}, (error, result) =>
         return done error if error?
         expect(result.length).to.equal 0

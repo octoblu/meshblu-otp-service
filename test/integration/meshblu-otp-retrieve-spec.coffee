@@ -1,7 +1,9 @@
-http              = require 'http'
-request           = require 'request'
-shmock            = require '@octoblu/shmock'
-mongojs           = require 'mongojs'
+{afterEach, beforeEach, describe, it} = global
+{expect} = require 'chai'
+
+request = require 'request'
+mongojs = require 'mongojs'
+
 Server            = require '../../src/server'
 Encryption        = require '../../src/services/encryption'
 MeshbluOtpService = require '../../src/services/meshblu-otp-service'
@@ -33,7 +35,7 @@ describe 'Retrieve', ->
   describe 'On GET /retrieve/:key', ->
     beforeEach (done) ->
       otpService = new MeshbluOtpService {@keys, privateKey}
-      otpService.generate {uuid: 'oh-sweet-uuid', token: 'oh-sweet-token', metadata: {something: true}}, (error, result) =>
+      otpService.generate {uuid: 'my-uuid', token: 'my-token', metadata: {something: true}}, (error, result) =>
         return done error if error?
         {@key} = result
         done()
@@ -52,8 +54,8 @@ describe 'Retrieve', ->
 
     it 'should create return the uuid and token', ->
       expect(@body).to.deep.equal {
-        uuid: 'oh-sweet-uuid'
-        token: 'oh-sweet-token'
+        uuid: 'my-uuid'
+        token: 'my-token'
         metadata:
           something: true
       }
